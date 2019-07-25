@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.KeyVault;
@@ -42,8 +43,7 @@ namespace samplewebapi.Controllers
             var accessToken = accessTokenTask.Result;
             //accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
 
-            httpclient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue
-                ("Bearer", accessToken);
+            httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
