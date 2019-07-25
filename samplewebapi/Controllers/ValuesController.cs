@@ -14,7 +14,14 @@ namespace samplewebapi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var keyvalue = new List<KeyValuePair<string, string>>();
+            foreach (var header in HttpContext.Request.Headers)
+            {
+                var key = header.Key;
+                var val = header.Value;
+                keyvalue.Add(new KeyValuePair<string, string>(key, val));
+            }
+            return JsonConvert.SerializeObject(keyvalue, Formatting.Indented).ToString();
         }
 
         // GET api/values/5
