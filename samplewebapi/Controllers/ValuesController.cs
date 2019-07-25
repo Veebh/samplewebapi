@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace samplewebapi.Controllers
 {
@@ -12,9 +13,25 @@ namespace samplewebapi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<string> Get()
         {
-            return new string[] { "staging-value1", "staging-value2" };
+            var httpclient = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler()
+            {
+                //Proxy = new System.Net.WebProxy()
+                //{
+                //    Address = new Uri($"http://webproxy-inet.ms.com:8080"),
+                //    BypassProxyOnLocal = true,
+                //    UseDefaultCredentials = true
+                //}
+            });
+
+            var response = httpclient.GetAsync("https://samplewebapivcha.azurewebsites.net/api/values").GetAwaiter().GetResult();
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content.ReadAsStringAsync().Result;
+                return content;
+            }
+            return response.ReasonPhrase;
         }
 
         // GET api/values/5
