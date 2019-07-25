@@ -25,7 +25,7 @@ namespace samplewebapi.Controllers
                 //}
             });
 
-            var response = httpclient.GetAsync("https://samplewebapivcha.azurewebsites.net/api/values").GetAwaiter().GetResult();
+            var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
