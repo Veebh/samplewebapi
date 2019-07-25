@@ -50,7 +50,7 @@ namespace samplewebapi.Controllers
                 var content = response.Content.ReadAsStringAsync().Result;
                 return content;
             }
-            return response.ReasonPhrase;
+            return response.ReasonPhrase + accessToken;
         }
 
         // GET api/values/5
