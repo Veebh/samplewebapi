@@ -35,7 +35,7 @@ namespace samplewebapi.Controllers
 
             // Optional: Request an access token to other Azure services
             var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
-            accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://management.azure.com/").ConfigureAwait(false);
+            accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
 
             httpclient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue
                 ("Bearer", accessToken);
