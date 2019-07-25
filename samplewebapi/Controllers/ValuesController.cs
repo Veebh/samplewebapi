@@ -14,7 +14,7 @@ namespace samplewebapi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<string> Get()
         {
             var keyvalue = new List<KeyValuePair<string, string>>();
             foreach (var header in HttpContext.Request.Headers)
@@ -23,7 +23,7 @@ namespace samplewebapi.Controllers
                 var val = header.Value;
                 keyvalue.Add(new KeyValuePair<string, string>(key, val));
             }
-            return JsonConvert.SerializeObject(keyvalue, Formatting.Indented).ToString();
+            return JsonConvert.SerializeObject(keyvalue, Newtonsoft.Json.Formatting.Indented).ToString();
         }
 
         // GET api/values/5
