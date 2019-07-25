@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Newtonsoft.Json;
 
 namespace samplewebapi.Controllers
@@ -11,9 +13,11 @@ namespace samplewebapi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private string accessToken;
+
         // GET api/values
         [HttpGet]
-        public ActionResult<string> Get()
+        public async Task<ActionResult<string>> GetAsync()
         {
             var httpclient = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler()
             {
@@ -25,6 +29,16 @@ namespace samplewebapi.Controllers
                 //}
             });
 
+            // Instantiate a new KeyVaultClient object, with an access token to Key Vault
+            var azureServiceTokenProvider1 = new AzureServiceTokenProvider();
+            var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider1.KeyVaultTokenCallback));
+
+            // Optional: Request an access token to other Azure services
+            var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
+            accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://management.azure.com/").ConfigureAwait(false);
+
+            httpclient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue
+                ("Bearer", accessToken);
             var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
