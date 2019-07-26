@@ -1,11 +1,12 @@
-﻿
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Services.AppAuthentication;
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
+using Newtonsoft.Json;
 
 namespace samplewebapi.Controllers
 {
@@ -17,7 +18,7 @@ namespace samplewebapi.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<ActionResult<string>> GetAsync()
         {
             var httpclient = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler()
             {
@@ -43,14 +44,13 @@ namespace samplewebapi.Controllers
             //accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
 
             httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var response = await httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values");
-             //var response = resp.
+            var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
-                return Ok(content+ Environment.NewLine + accessToken);
+                return content+ Environment.NewLine + accessToken;
             }
-            return BadRequest(response.ReasonPhrase + Environment.NewLine + accessToken);
+            return response.ReasonPhrase + Environment.NewLine + accessToken;
         }
 
         // GET api/values/5
