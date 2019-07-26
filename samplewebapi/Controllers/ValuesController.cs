@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Services.AppAuthentication;
+
+using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
-using Newtonsoft.Json;
 
 namespace samplewebapi.Controllers
 {
@@ -18,7 +17,7 @@ namespace samplewebapi.Controllers
 
         // GET api/values
         [HttpGet]
-        public async Task<ActionResult<string>> GetAsync()
+        public async Task<IActionResult> GetAsync()
         {
             var httpclient = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler()
             {
@@ -37,20 +36,21 @@ namespace samplewebapi.Controllers
             // Optional: Request an access token to other Azure services
             var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
 
-            var accessTokenTask = azureServiceTokenProvider2.GetAccessTokenAsync("https%3A%2F%2Ftargetwebapi.azurewebsites.net");
+            var accessTokenTask = azureServiceTokenProvider2.GetAccessTokenAsync("a538ca81-3d33-4536-8f80-f271945da83d");
 
             accessTokenTask.Wait();
             var accessToken = accessTokenTask.Result;
             //accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
 
             httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
+            var response = await httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values");
+             //var response = resp.
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
-                return content+ Environment.NewLine + accessToken;
+                return Ok(content+ Environment.NewLine + accessToken);
             }
-            return response.ReasonPhrase + Environment.NewLine + accessToken;
+            return BadRequest(response.ReasonPhrase + Environment.NewLine + accessToken);
         }
 
         // GET api/values/5
