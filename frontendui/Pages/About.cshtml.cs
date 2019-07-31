@@ -49,7 +49,7 @@ namespace frontendui.Pages
                 var content = response.Content.ReadAsStringAsync().Result;
                 return content;
             }
-            return response.ReasonPhrase + Environment.NewLine;
+            return response.ReasonPhrase + Environment.NewLine; 
         }
     }
 }
