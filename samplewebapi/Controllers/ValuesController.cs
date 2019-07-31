@@ -37,7 +37,7 @@ namespace samplewebapi.Controllers
             // Optional: Request an access token to other Azure services
             var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
 
-            var accessTokenTask = azureServiceTokenProvider2.GetAccessTokenAsync("a538ca81-3d33-4536-8f80-f271945da83d");
+            var accessTokenTask = azureServiceTokenProvider2.GetAccessTokenAsync("ffe3cbcf-8945-489c-a8e6-bc73995bbfcb");
 
             accessTokenTask.Wait();
             var accessToken = accessTokenTask.Result;
