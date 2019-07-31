@@ -33,23 +33,23 @@ namespace frontendui.Pages
             //var azureServiceTokenProvider1 = new AzureServiceTokenProvider();
             //var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider1.KeyVaultTokenCallback));
 
-            // Optional: Request an access token to other Azure services
-            var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
+            //// Optional: Request an access token to other Azure services
+            //var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
 
-            var accessTokenTask = azureServiceTokenProvider2.GetAccessTokenAsync("a538ca81-3d33-4536-8f80-f271945da83d");
+            //var accessTokenTask = azureServiceTokenProvider2.GetAccessTokenAsync("a538ca81-3d33-4536-8f80-f271945da83d");
 
-            accessTokenTask.Wait();
-            var accessToken = accessTokenTask.Result;
-            //accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
+            //accessTokenTask.Wait();
+            //var accessToken = accessTokenTask.Result;
+            ////accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
 
-            httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            //httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
                 return content;
             }
-            return response.ReasonPhrase + Environment.NewLine + accessToken;
+            return response.ReasonPhrase + Environment.NewLine;
         }
     }
 }
