@@ -42,7 +42,7 @@ namespace samplewebapi.Controllers
             //accessTokenTask.Wait();
             //var accessToken = accessTokenTask.Result;
             var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
-            string accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net/.auth/login/aad/callback").ConfigureAwait(false);
+            string accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
             httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
             if (response.IsSuccessStatusCode)
