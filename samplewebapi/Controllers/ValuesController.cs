@@ -15,7 +15,7 @@ namespace samplewebapi.Controllers
     {
         // GET api/values
         [HttpGet]
-        //[Authorize(Roles = Role.Admin)]
+        [Authorize(Roles = Role.Admin)]
         public ActionResult<string> Get()
         {
             var keyvalue = new List<KeyValuePair<string, string>>();
