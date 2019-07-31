@@ -31,17 +31,18 @@ namespace samplewebapi.Controllers
             });
 
             // Instantiate a new KeyVaultClient object, with an access token to Key Vault
-            //var azureServiceTokenProvider1 = new AzureServiceTokenProvider();
-            //var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider1.KeyVaultTokenCallback));
+            var azureServiceTokenProvider1 = new AzureServiceTokenProvider();
+            var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider1.KeyVaultTokenCallback));
 
             // Optional: Request an access token to other Azure services
-            var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
+            //var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
 
             //var accessTokenTask = azureServiceTokenProvider2.GetAccessTokenAsync("ffe3cbcf-8945-489c-a8e6-bc73995bbfcb");
 
             //accessTokenTask.Wait();
             //var accessToken = accessTokenTask.Result;
-            accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
+            var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
+            string accessToken = await azureServiceTokenProvider2.GetAccessTokenAsync("https://targetwebapi.azurewebsites.net").ConfigureAwait(false);
 
             httpclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var response = httpclient.GetAsync("https://targetwebapi.azurewebsites.net/api/values").GetAwaiter().GetResult();
