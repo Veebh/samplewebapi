@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -14,6 +15,7 @@ namespace samplewebapi.Controllers
     {
         // GET api/values
         [HttpGet]
+        [Authorize(Roles = Role.Admin)]
         public ActionResult<string> Get()
         {
             var keyvalue = new List<KeyValuePair<string, string>>();
@@ -50,5 +52,11 @@ namespace samplewebapi.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+    public static class Role
+    {
+        public const string Admin = "Admin";
+        public const string User = "User";
     }
 }
