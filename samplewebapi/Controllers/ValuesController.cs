@@ -48,9 +48,9 @@ namespace samplewebapi.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = response.Content.ReadAsStringAsync().Result;
-                return content+ Environment.NewLine + accessToken;
+                return Ok(content);
             }
-            return response.ReasonPhrase + Environment.NewLine + accessToken;
+            return BadRequest(response.ReasonPhrase + Environment.NewLine + accessToken);
         }
 
         // GET api/values/5
