@@ -31,8 +31,8 @@ namespace samplewebapi.Controllers
             });
 
             // Instantiate a new KeyVaultClient object, with an access token to Key Vault
-            var azureServiceTokenProvider1 = new AzureServiceTokenProvider();
-            var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider1.KeyVaultTokenCallback));
+            //var azureServiceTokenProvider1 = new AzureServiceTokenProvider();
+            //var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider1.KeyVaultTokenCallback));
             
             // Optional: Request an access token to other Azure services
             //var azureServiceTokenProvider2 = new AzureServiceTokenProvider();
