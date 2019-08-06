@@ -13,7 +13,7 @@ namespace samplewebapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ControllerBase
     {
         // GET api/values
