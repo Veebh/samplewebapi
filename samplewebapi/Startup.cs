@@ -65,7 +65,7 @@ namespace samplewebapi
                 swaggerUiOptions.DefaultModelExpandDepth(-1);
             });
             app.UseStaticFiles();
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseDefaultFiles(new DefaultFilesOptions
             {
                 DefaultFileNames = new List<string> { "index.html" }
