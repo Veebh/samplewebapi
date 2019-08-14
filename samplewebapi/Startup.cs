@@ -28,7 +28,8 @@ namespace samplewebapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddApplicationInsightsTelemetry(); services.AddSwaggerGen(swaggerGenOptions =>
+            services.AddApplicationInsightsTelemetry();
+            services.AddSwaggerGen(swaggerGenOptions =>
             {
                 swaggerGenOptions.SwaggerDoc("V1", new Swashbuckle.AspNetCore.Swagger.Info
                 {
