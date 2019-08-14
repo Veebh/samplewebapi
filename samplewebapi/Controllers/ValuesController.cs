@@ -7,6 +7,7 @@ using System.Xml;
 using corewebapiwithswaggerui;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace samplewebapi.Controllers
@@ -16,11 +17,23 @@ namespace samplewebapi.Controllers
     //[Authorize]
     public class ValuesController : ControllerBase
     {
+        private readonly ILogger _logger;
+        public ValuesController(ILogger<ValuesController> logger)
+        {
+            _logger = logger;
+        }
         // GET api/values
         [HttpGet]
         //[Authorize(Roles = Role.Admin)]
         public ActionResult<string> Get()
         {
+            //All the following logs will be picked up by Application Insights.
+            // and all of them will have("MyKey", "MyValue") in Properties.
+            using (_logger.BeginScope(new Dictionary<string, object> { { "MyKey", "MyValue" } }))
+            {
+                _logger.LogWarning("backendsamplewebapi: Client application test trace-->LogWarning.");
+                _logger.LogError("backendsamplewebapi: Client application test trace-->LogError.");
+            }
             ClaimsPrincipal principal = HttpContext.User as ClaimsPrincipal;
             var keyvalue = new List<KeyValuePair<string, string>>();
             if (null != principal)
